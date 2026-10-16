@@ -1,0 +1,30 @@
+{
+  "name": "@marketplace/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build --webpack",
+    "start": "next start -p 3001",
+    "typecheck": "tsc --noEmit",
+    "verify:checkout-recovery": "bun ./src/scripts/verify-checkout-recovery.ts"
+  },
+  "dependencies": {
+    "@marketplace/api-client": "workspace:*",
+    "@marketplace/contracts": "workspace:*",
+    "@marketplace/ui": "workspace:*",
+    "lucide-react": "0.475.0",
+    "next": "16.3.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "socket.io-client": "^4.8.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^20.19.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.8.2"
+  }
+}

@@ -1,0 +1,206 @@
+@import "tailwindcss";
+@source "../../../../packages/ui/src";
+
+@theme inline {
+    --color-primary: var(--makers-primary);
+    --color-primary-foreground: var(--makers-ivory);
+    --color-background: var(--makers-background);
+    --color-foreground: var(--makers-foreground);
+    --color-card: var(--makers-card);
+    --color-muted: var(--makers-muted);
+    --color-muted-foreground: var(--makers-muted-foreground);
+    --color-secondary: var(--makers-sand);
+    --color-border: var(--makers-border);
+    --color-sand: var(--makers-sand);
+    --color-gold: var(--makers-gold);
+    --color-clay: var(--makers-clay);
+    --color-ivory: var(--makers-ivory);
+    --color-forest-deep: var(--makers-forest-deep);
+    --font-display: "Cormorant Garamond", Georgia, serif;
+}
+
+@theme {
+    --font-sans: Arial, Helvetica, sans-serif;
+    --color-ink: #222222;
+    --color-forest: #255038;
+    --color-mint: color-mix(in srgb, #255038 14%, #fdf9ea);
+    --color-coral: #8c3a18;
+    --color-sun: #b78f58;
+    --color-canvas: #fdf9ea;
+}
+
+:root {
+    color-scheme: light;
+}
+
+html {
+    background: #fdf9ea;
+}
+
+body {
+    margin: 0;
+    color: #222222;
+    background: #fdf9ea;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Canonical Makers Bazar palette shared by the public storefront and customer experiences. */
+.makers-theme {
+    --makers-background: #fdf9ea;
+    --makers-foreground: #222222;
+    --makers-card: #fdf9ea;
+    --makers-muted: color-mix(in srgb, #b78f58 12%, #fdf9ea);
+    --makers-muted-foreground: color-mix(in srgb, #222222 68%, #fdf9ea);
+    --makers-primary: #255038;
+    --makers-sand: color-mix(in srgb, #b78f58 18%, #fdf9ea);
+    --makers-gold: #b78f58;
+    --makers-clay: #8c3a18;
+    --makers-ivory: #fdf9ea;
+    --makers-border: color-mix(in srgb, #b78f58 36%, #fdf9ea);
+    --makers-forest-deep: #255038;
+    font-family: "DM Sans", Arial, sans-serif;
+    background: var(--makers-background);
+    color: var(--makers-foreground);
+}
+
+.makers-theme h1,
+.makers-theme h2,
+.makers-theme h3,
+.makers-theme .font-display {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-weight: 600;
+}
+
+.makers-theme .shadow-soft { box-shadow: 0 1px 2px rgb(34 34 34 / 4%), 0 8px 24px -12px rgb(34 34 34 / 16%); }
+.makers-theme .shadow-lift { box-shadow: 0 2px 6px rgb(34 34 34 / 6%), 0 28px 56px -24px rgb(34 34 34 / 28%); }
+.makers-theme .paper { background-image: radial-gradient(rgb(34 34 34 / 6%) 0.5px, transparent 0.5px); background-size: 4px 4px; }
+.makers-theme .gold-button, .makers-theme .gold-panel { background: #b78f58; color: #222222; }
+.makers-theme .gold-button { box-shadow: 0 12px 28px -14px rgb(34 34 34 / 55%); }
+.makers-theme .eyebrow { font-size: 0.6875rem; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; color: #8c3a18; }
+.makers-theme .marquee-track { animation: makers-marquee 38s linear infinite; }
+@keyframes makers-marquee { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .makers-theme .marquee-track { animation: none; } }
+
+/* Compact creative brief on digital product pages. */
+.makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"])) {
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid #c7a86b;
+    border-radius: 1rem;
+    background: #fffaf0;
+    box-shadow: 0 0 0 4px #f5ecd7, 0 16px 38px rgb(87 65 30 / 12%);
+}
+
+.makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"])) > div:first-child {
+    padding: 1rem;
+    border-bottom: 1px solid #c7a86b;
+    box-shadow: inset 4px 0 0 #8c3a18;
+    background: #f0dfb6;
+}
+
+.makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"])) > div:first-child > span {
+    border-radius: 0.75rem;
+    color: white;
+    background: #255038;
+    box-shadow: 0 4px 12px rgb(37 80 56 / 16%);
+}
+
+.makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"])) > form {
+    max-height: min(62vh, 560px);
+    margin-top: 0;
+    padding: 1rem 1rem 1.25rem;
+    gap: 1rem 0.875rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: #b98b46 #f1eadc;
+    background: #fffaf0;
+}
+
+.makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"])) > form::-webkit-scrollbar {
+    width: 8px;
+}
+
+.makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"])) > form::-webkit-scrollbar-track {
+    background: #f1eadc;
+}
+
+.makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"])) > form::-webkit-scrollbar-thumb {
+    border: 2px solid #f1eadc;
+    border-radius: 999px;
+    background: #b98b46;
+}
+
+.makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"])) > form > label {
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"])) > form > label:nth-of-type(4n + 2) {
+    border: 0;
+    background: transparent;
+}
+
+.makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"])) > form > label:nth-of-type(4n + 3) {
+    border: 0;
+    background: transparent;
+}
+
+.makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"])) > form > label:nth-of-type(4n) {
+    border: 0;
+    background: transparent;
+}
+
+.makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"])) fieldset,
+.makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"])) > form > div {
+    padding: 0.875rem;
+    border: 1px solid #ddcba5;
+    border-radius: 0.75rem;
+    background: #fffdf7;
+}
+
+.makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"]))
+    > form :is(input:not([type="checkbox"]):not([type="file"]), select, textarea) {
+    border-color: #ddcda9;
+    background: #fffdf5;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 80%);
+}
+
+.makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"]))
+    > form :is(input:not([type="checkbox"]):not([type="file"]), select, textarea):focus {
+    border-color: #c4a56b;
+    background: #fffef9;
+    box-shadow: 0 0 0 2px #f0e3c6;
+}
+
+.makers-theme section:has(> form input[name="projectTitle"]) > form fieldset label,
+.makers-theme section:has(> form input[name="projectTitle"]) > form label[for="project-reference-files"] {
+    border-color: #ddcda9;
+    background: #fffdf5;
+}
+
+.makers-theme section:has(> form input[name="projectTitle"]) > form fieldset label:hover,
+.makers-theme section:has(> form input[name="projectTitle"]) > form label[for="project-reference-files"]:hover {
+    border-color: #c4a56b;
+    background: #fffef9;
+}
+
+.makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"])) button[type="submit"] {
+    position: static;
+    border: 0;
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 18px rgb(37 80 56 / 18%);
+}
+
+@media (max-width: 640px) {
+    .makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"])) > form {
+        max-height: 70vh;
+        padding: 0.75rem;
+    }
+}

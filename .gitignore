@@ -1,0 +1,15 @@
+node_modules
+.bun-tmp
+.next
+.next-*
+.codex-artifacts
+dist
+coverage
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+private-digital-assets
+test-results
+.DS_Store
+*.log

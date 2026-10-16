@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="Product image unavailable">
+  <rect width="800" height="1000" fill="#f1e5c9"/>
+  <circle cx="400" cy="440" r="125" fill="none" stroke="#b78f58" stroke-width="8" opacity=".65"/>
+  <path d="M325 458l43-46 32 30 43-61 56 77" fill="none" stroke="#255038" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>
+  <circle cx="355" cy="385" r="12" fill="#255038" opacity=".8"/>
+  <text x="400" y="655" text-anchor="middle" fill="#255038" font-family="Georgia,serif" font-size="40">Image coming soon</text>
+</svg>
