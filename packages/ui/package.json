@@ -11,7 +11,7 @@
     "react-dom": ">=19"
   },
   "dependencies": {
-    "@marketplace/contracts": "workspace:*",
+    "@marketplace/contracts": "0.1.0",
     "clsx": "^2.1.1"
   }
 }
