@@ -1,10 +1,7 @@
 import type { NextConfig } from 'next';
-import path from 'node:path';
 
 const nextConfig: NextConfig = {
     distDir: process.env.NEXT_DIST_DIR ?? '.next',
-    output: 'standalone',
-    outputFileTracingRoot: path.join(process.cwd(), '../..'),
     agentRules: false,
     transpilePackages: ['@marketplace/api-client', '@marketplace/contracts', '@marketplace/ui'],
     images: {
