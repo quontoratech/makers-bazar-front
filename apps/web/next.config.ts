@@ -1,7 +1,10 @@
 import type { NextConfig } from 'next';
+import path from 'node:path';
 
 const nextConfig: NextConfig = {
     distDir: process.env.NEXT_DIST_DIR ?? '.next',
+    output: 'standalone',
+    outputFileTracingRoot: path.join(process.cwd(), '../..'),
     agentRules: false,
     transpilePackages: ['@marketplace/api-client', '@marketplace/contracts', '@marketplace/ui'],
     images: {
@@ -9,6 +12,7 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             { protocol: 'http', hostname: 'localhost', port: '3000', pathname: '/assets/**' },
             { protocol: 'http', hostname: '127.0.0.1', port: '3000', pathname: '/assets/**' },
+            { protocol: 'https', hostname: 'maroon-kudu-267304.hostingersite.com', pathname: '/assets/**' },
             { protocol: 'https', hostname: 'res.cloudinary.com', pathname: '/**' },
         ],
     },
