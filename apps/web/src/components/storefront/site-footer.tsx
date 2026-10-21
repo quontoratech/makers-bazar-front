@@ -5,11 +5,11 @@ import { siteConfig } from '@/lib/site-config';
 const footer: Array<{ title: string; links: Array<[string, string]> }> = [
     { title: 'Shop', links: [
         ['All products', '/shop'], ['Food', '/shop?type=perishable'],
-        ['Services', '/services'], ['Gifts', '/shop?q=gift'],
+        ['Services', '/shop?type=service#products'], ['Gifts', '/shop?q=gift#products'],
     ] },
     { title: 'Discover', links: [
         ['Meet the Makers', '/vendors'], ['Stories', '/stories'],
-        ['Events', '/events'], ['Workshops', '/events'],
+        ['Events', '/shop?type=event#products'], ['Workshops', '/shop?type=workshop#products'],
     ] },
     { title: 'Sell With Us', links: [
         ['Open Your Shop', '/apply/vendor'], ['Vendor Policy', '/policies/vendor'],

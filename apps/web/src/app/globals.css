@@ -84,6 +84,26 @@ body {
 @keyframes makers-marquee { to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .makers-theme .marquee-track { animation: none; } }
 
+/* Keep the vendor category rail visibly scrollable on every desktop OS. */
+.makers-theme .vendor-category-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #b78f58 #e8ddc4;
+}
+
+.makers-theme .vendor-category-scroll::-webkit-scrollbar {
+    height: 2px;
+}
+
+.makers-theme .vendor-category-scroll::-webkit-scrollbar-track {
+    border-radius: 999px;
+    background: #e8ddc4;
+}
+
+.makers-theme .vendor-category-scroll::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: #b78f58;
+}
+
 /* Compact creative brief on digital product pages. */
 .makers-theme section:has(> form :is(input[name="projectTitle"], select[name="eventType"], select[name="className"])) {
     overflow: hidden;

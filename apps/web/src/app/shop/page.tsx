@@ -10,12 +10,12 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import type { ReactNode } from 'react';
 
 import { Button } from '@marketplace/ui';
 import { DeferredStickyPanel } from '@/components/storefront/deferred-sticky-panel';
 import { ProductCard } from '@/components/storefront/product-card';
-import { ListingDirectoryPage } from '@/components/storefront/listing-directory-page';
 import { StorefrontShell } from '@/components/storefront/storefront-shell';
 import { getMarketplaceArticles } from '@/features/content/services/marketplace-articles.service';
 import {
@@ -77,29 +77,30 @@ export default async function ShopPage({
     const query = paramValue(params, 'q');
     const sort = parseSort(params);
     const filter = buildCatalogFilter(params);
-    const [allCatalog, vendors, definitions, categoryCatalog, stories] = await Promise.all([
+    const [allCatalog, vendors, definitions, stories] = await Promise.all([
         getMarketplaceProducts({ sort: 'POPULARITY' }),
         getMarketplaceVendors(),
         getMarketplaceProductCategories(),
-        filter.categoryCode ? getMarketplaceProducts({ categoryCode: filter.categoryCode, sort }) : Promise.resolve(undefined),
         getMarketplaceArticles(),
     ]);
     const categoryDefinitions = definitions;
-    const filteredCatalog = filterAndSortCatalogProducts(categoryCatalog ?? allCatalog, filter, query, sort);
-    const allResultProducts = filteredCatalog.map(catalogProductSummary);
     const selectedCategory = categoryDefinitions.find(category => category.code === filter.categoryCode);
-    const collectionCards = buildCollectionCards(categoryDefinitions, allCatalog);
+    if (filter.categoryCode && (!selectedCategory || (filter.productType && normalizeCode(selectedCategory.productType) !== normalizeCode(filter.productType)))) {
+        redirect(shopHrefWithout(params, ['category', 'page']));
+    }
+    const visibleCategoryDefinitions = filter.productType
+        ? categoryDefinitions.filter(category => normalizeCode(category.productType) === normalizeCode(filter.productType))
+        : categoryDefinitions;
+    const filteredCatalog = filterAndSortCatalogProducts(allCatalog, filter, query, sort);
+    const allResultProducts = filteredCatalog.map(catalogProductSummary);
+    const collectionCards = buildCollectionCards(visibleCategoryDefinitions, allCatalog);
     const productTypes = buildProductTypeOptions(categoryDefinitions, allCatalog);
+    const selectedProductType = productTypes.find(type => normalizeCode(type.value) === normalizeCode(filter.productType));
     const locationOptions = uniqueValues(allCatalog.flatMap(product => [product.location, ...(product.vendorLocations ?? [])]).filter(Boolean));
     const vendorOptions = buildVendorOptions(vendors, allCatalog);
     const dietaryOptions = buildDietaryOptions(allCatalog);
     const activeFilterCount = countActiveFilters(params);
     const filterKey = buildFilterKey(params);
-
-    const directoryType = normalizeCode(filter.productType ?? '');
-    if (['PHYSICAL', 'PERISHABLE', 'DIGITAL'].includes(directoryType) || query.trim().toLowerCase() === 'organic') {
-        return <ListingDirectoryPage products={allResultProducts} query={query} type={directoryType ? directoryType.toLowerCase() : undefined} />;
-    }
 
     const totalResults = allResultProducts.length;
     const totalPages = Math.max(1, Math.ceil(totalResults / productsPerPage));
@@ -125,7 +126,7 @@ export default async function ShopPage({
                         <div>
                             <p className="eyebrow">Made by independent makers</p>
                             <h1 className="mt-3 max-w-3xl text-[3.25rem] leading-[0.94] text-primary sm:text-[4.5rem]">
-                                {selectedCategory?.name ?? (query ? `Results for “${query}”` : 'Objects with a story.')}
+                                {selectedCategory?.name ?? (query ? `Results for “${query}”` : selectedProductType ? `${selectedProductType.label} from local makers.` : 'Objects with a story.')}
                             </h1>
                             <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
                                 Shop thoughtful products, small-batch food and original experiences from approved makers across Pakistan.
@@ -147,10 +148,10 @@ export default async function ShopPage({
                             </form>
                             <div className="mt-3 flex flex-wrap gap-2 px-2 pb-1">
                                 {([
-                                    ['Artisan', '/shop?type=physical'],
-                                    ['Food', '/shop?type=perishable'],
-                                    ['Digital', '/shop?type=digital'],
-                                    ['Services', '/services'],
+                                    ['Artisan', '/shop?type=physical#products'],
+                                    ['Food', '/shop?type=perishable#products'],
+                                    ['Digital', '/shop?type=digital#products'],
+                                    ['Services', '/shop?type=service#products'],
                                 ] as const).map(([label, href]) => (
                                     <Link key={label} href={href} className="rounded-full border border-border bg-background px-3 py-1.5 text-xs font-semibold text-primary transition hover:border-gold hover:bg-gold/10">
                                         {label}
@@ -177,7 +178,7 @@ export default async function ShopPage({
                         {collectionCards.slice(0, 12).map((collection, index) => (
                             <Link
                                 key={collection.code}
-                                href={`/shop?category=${encodeURIComponent(collection.code)}`}
+                                href={categoryShopHref(collection.code, collection.productType)}
                                 className={`group relative min-w-0 overflow-hidden rounded-2xl bg-secondary ${index === 0 || index === 7 ? 'h-[250px] lg:col-span-2' : 'h-[250px]'}`}
                             >
                                     <Image
@@ -216,11 +217,11 @@ export default async function ShopPage({
                 </div>
                 <div className="grid gap-8 lg:grid-cols-[320px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)]">
                 <aside className="relative hidden lg:block">
-                    <DeferredStickyPanel className="rounded-2xl border border-[#dfd1ae] bg-[#fffdf7] p-6 shadow-[0_14px_45px_rgba(30,72,49,0.05)]">
+                    <DeferredStickyPanel className="rounded-2xl border border-[#dfd1ae] bg-[#FDF9E9] p-6 shadow-[0_14px_45px_rgba(30,72,49,0.05)]">
                         <FilterPanel
                             key={`desktop-${filterKey}`}
                             params={params}
-                            categories={categoryDefinitions}
+                            categories={visibleCategoryDefinitions}
                             productTypes={productTypes}
                             locations={locationOptions}
                             vendors={vendorOptions}
@@ -231,7 +232,7 @@ export default async function ShopPage({
                 </aside>
 
                 <section aria-label="Catalog results" className="min-w-0">
-                    <details className="mb-5 overflow-hidden rounded-2xl border border-[#dfd1ae] bg-[#fffdf7] lg:hidden">
+                    <details className="mb-5 overflow-hidden rounded-2xl border border-[#dfd1ae] bg-[#FDF9E9] lg:hidden">
                         <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 text-sm font-bold text-primary">
                             <span className="inline-flex items-center gap-2"><SlidersHorizontal className="size-4" /> Filters {activeFilterCount ? `(${activeFilterCount})` : ''}</span>
                             <ChevronDown className="size-4" />
@@ -240,7 +241,7 @@ export default async function ShopPage({
                             <FilterPanel
                                 key={`mobile-${filterKey}`}
                                 params={params}
-                                categories={categoryDefinitions}
+                                categories={visibleCategoryDefinitions}
                                 productTypes={productTypes}
                                 locations={locationOptions}
                                 vendors={vendorOptions}
@@ -305,7 +306,7 @@ export default async function ShopPage({
                                 <Store className="mx-auto size-9 text-[#8a9b94]" />
                                 <h2 className="mt-4 text-xl font-black">No exact matches yet</h2>
                                 <p className="mt-2 text-sm leading-6 text-[#687770]">Try a broader keyword, remove a filter, or choose another delivery location from the header.</p>
-                                <Link href="/shop" className="mt-5 inline-flex h-10 items-center justify-center rounded-md bg-[#255038] px-4 text-sm font-bold text-white">
+                                <Link href="/shop#products" className="mt-5 inline-flex h-10 items-center justify-center rounded-md bg-[#255038] px-4 text-sm font-bold text-white">
                                     Clear filters
                                 </Link>
                             </div>
@@ -361,10 +362,10 @@ function FilterPanel({
     const selectedLocation = paramValue(params, 'location');
     const locationChoices = uniqueValues([selectedLocation, ...locations].filter(Boolean));
     return (
-        <form action="/shop" className={compact ? 'space-y-5' : 'space-y-6'}>
+        <form action="/shop#products" className={compact ? 'space-y-5' : 'space-y-6'}>
             <div className="flex items-center justify-between gap-3">
                 <h2 className="font-display text-2xl text-primary">Filters</h2>
-                {activeFilterCount ? <Link href="/shop" className="text-xs font-bold text-[#8c3a18] hover:text-[#8f3927]">Clear all</Link> : null}
+                {activeFilterCount ? <Link href="/shop#products" className="text-xs font-bold text-[#8c3a18] hover:text-[#8f3927]">Clear all</Link> : null}
             </div>
 
             <label className="block">
@@ -787,10 +788,32 @@ function buildCollectionCards(categories: CatalogCategoryDefinition[], products:
         return [{
             code: category.code,
             name: category.name,
+            productType: category.productType,
             count: matches.length,
             image: catalogProductSummary(matches[0]!).image,
         }];
     });
+}
+
+function categoryShopHref(categoryCode: string, productType: string) {
+    const nextParams = new URLSearchParams({
+        category: categoryCode,
+        type: productType.toLowerCase(),
+    });
+    return `/shop?${nextParams.toString()}#products`;
+}
+
+function shopHrefWithout(params: ShopSearchParams, excludedKeys: string[]) {
+    const nextParams = new URLSearchParams();
+    for (const [key, rawValue] of Object.entries(params)) {
+        if (excludedKeys.includes(key)) continue;
+        const values = Array.isArray(rawValue) ? rawValue : rawValue ? [rawValue] : [];
+        for (const value of values) {
+            if (value) nextParams.append(key, value);
+        }
+    }
+    const queryString = nextParams.toString();
+    return `/shop${queryString ? `?${queryString}` : ''}#products`;
 }
 
 function buildProductTypeOptions(categories: CatalogCategoryDefinition[], products: CatalogProduct[]) {

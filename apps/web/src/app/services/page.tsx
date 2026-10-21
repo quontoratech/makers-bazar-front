@@ -1,9 +1,22 @@
-import { ListingDirectoryPage } from '@/components/storefront/listing-directory-page';
-import { catalogProductSummary, getMarketplaceProducts } from '@/features/catalog/services/marketplace-products.service';
+import { redirect } from 'next/navigation';
 
-export default async function ServicesPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
-    const query = (await searchParams).q?.trim() ?? '';
-    const catalog = await getMarketplaceProducts({ filter: { productType: 'SERVICE' }, sort: 'RATING' });
-    const services = catalog.filter(product => !query || `${product.name} ${product.categoryName} ${product.vendorName} ${product.description}`.toLowerCase().includes(query.toLowerCase())).map(catalogProductSummary);
-    return <ListingDirectoryPage products={services} query={query} action="/services" resultsTitle="Services Across the Bazar" emptyLabel="No matching services" />;
+type LegacySearchParams = Record<string, string | string[] | undefined>;
+
+export default async function ServicesPage({ searchParams }: { searchParams: Promise<LegacySearchParams> }) {
+    const params = await searchParams;
+    const shopParams = copySearchParams(params);
+    shopParams.set('type', 'service');
+    redirect(`/shop?${shopParams.toString()}#products`);
+}
+
+function copySearchParams(params: LegacySearchParams) {
+    const result = new URLSearchParams();
+    for (const [key, rawValue] of Object.entries(params)) {
+        if (key === 'type' || key === 'page') continue;
+        const values = Array.isArray(rawValue) ? rawValue : rawValue ? [rawValue] : [];
+        for (const value of values) {
+            if (value) result.append(key, value);
+        }
+    }
+    return result;
 }

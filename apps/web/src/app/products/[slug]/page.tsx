@@ -125,7 +125,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                         <div className="flex min-w-0 items-center gap-2 overflow-hidden py-5 text-xs text-[#718079]">
                             <Link href="/shop" className="hover:text-[#8c3a18]">Shop</Link>
                             <ChevronRight className="size-3 shrink-0" />
-                            <Link href={`/shop?category=${liveProduct?.categoryCode ?? ''}`} className="hover:text-[#8c3a18]">{product.category}</Link>
+                            <Link href={`/shop?category=${encodeURIComponent(liveProduct?.categoryCode ?? '')}#products`} className="hover:text-[#8c3a18]">{product.category}</Link>
                             <ChevronRight className="size-3 shrink-0" />
                             <span className="truncate font-semibold text-[#33473e]">{product.name}</span>
                         </div>

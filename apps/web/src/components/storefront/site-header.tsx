@@ -8,13 +8,13 @@ import { CART_UPDATED_EVENT, cartQuantity, readCart } from '@/features/cart/cart
 import { LocationSelector } from '@/features/location/components/location-selector';
 
 const links = [
-    { label: 'Artisan', href: '/shop?type=physical' },
-    { label: 'Food', href: '/shop?type=perishable' },
-    { label: 'Organic', href: '/shop?q=organic' },
-    { label: 'Digital', href: '/shop?type=digital' },
-    { label: 'Services', href: '/services' },
-    { label: 'Events', href: '/events' },
-    { label: 'Workshops', href: '/events' },
+    { label: 'Artisan', href: '/shop?type=physical#products' },
+    { label: 'Food', href: '/shop?type=perishable#products' },
+    { label: 'Organic', href: '/shop?q=organic#products' },
+    { label: 'Digital', href: '/shop?type=digital#products' },
+    { label: 'Services', href: '/shop?type=service#products' },
+    { label: 'Events', href: '/shop?type=event#products' },
+    { label: 'Workshops', href: '/shop?type=workshop#products' },
     { label: 'Collab', href: '/vendors' },
 ];
 const announcement = 'Discover Local Makers  •  Shop Unique Finds  •  Experience Something New  •  ';
