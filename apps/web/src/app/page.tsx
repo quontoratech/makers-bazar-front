@@ -9,7 +9,7 @@ import { ProductCard } from '@/components/storefront/product-card';
 import { ProductCardQuickAdd } from '@/components/storefront/product-card-quick-add';
 import { SiteFooter } from '@/components/storefront/site-footer';
 import { SiteHeader } from '@/components/storefront/site-header';
-import { catalogProductSummary, getMarketplaceProducts, getMarketplaceVendors } from '@/features/catalog/services/marketplace-products.service';
+import { catalogProductSummary, getMarketplaceCategoryTree, getMarketplaceProducts, getMarketplaceVendors } from '@/features/catalog/services/marketplace-products.service';
 import { getMarketplaceArticles } from '@/features/content/services/marketplace-articles.service';
 import type { CatalogProduct } from '@/features/vendor-catalog/types';
 import { formatMoney } from '@/lib/format';
@@ -106,10 +106,11 @@ function ExperienceShowcase() {
 }
 
 export default async function HomePage() {
-    const [catalog, vendors, articles] = await Promise.all([
+    const [catalog, vendors, articles, categories] = await Promise.all([
         getMarketplaceProducts({ sort: 'POPULARITY' }),
         getMarketplaceVendors(),
         getMarketplaceArticles(),
+        getMarketplaceCategoryTree(),
     ]);
     const approved = catalog.filter(product => product.enabled && product.status === 'PUBLISHED');
     const discounted = approved.filter(product => product.variants.some(variant => variant.compareAtPrice && variant.compareAtPrice > variant.priceWithTax));
@@ -119,7 +120,7 @@ export default async function HomePage() {
     const featuredVendors = vendors.filter(vendor => approved.some(product => product.vendorProfileId === vendor.id));
 
     return <div className="makers-theme min-h-screen">
-        <SiteHeader />
+        <SiteHeader categories={categories} />
         <main>
             <MakersHero vendorCount={vendors.length} featuredVendorSlug={featuredVendors[0]?.slug} />
 

@@ -98,6 +98,41 @@ const categoriesQuery = `
     }
 `;
 
+const categoryTreeQuery = `
+    query MarketplaceCategoryTree {
+        marketplaceCategoryTree {
+            id code slug name parentId description icon imageAssetId sortOrder breadcrumb level
+            children {
+                id code slug name parentId description icon imageAssetId sortOrder breadcrumb level
+                children {
+                    id code slug name parentId description icon imageAssetId sortOrder breadcrumb level
+                    children {
+                        id code slug name parentId description icon imageAssetId sortOrder breadcrumb level
+                        children {
+                            id code slug name parentId description icon imageAssetId sortOrder breadcrumb level
+                        }
+                    }
+                }
+            }
+        }
+    }
+`;
+
+export interface MarketplaceCategoryMenuNode {
+    id: string;
+    code: string;
+    slug: string;
+    name: string;
+    parentId?: string | null;
+    description?: string;
+    icon?: string | null;
+    imageAssetId?: string | null;
+    sortOrder?: number;
+    breadcrumb?: string[];
+    level?: number;
+    children?: MarketplaceCategoryMenuNode[];
+}
+
 export type MarketplaceCatalogSort =
     | 'RELEVANCE'
     | 'POPULARITY'
@@ -268,6 +303,15 @@ export async function getMarketplaceProductCategories(): Promise<CatalogCategory
     try {
         const data = await publicShopRequest<{ marketplaceProductCategories: CatalogCategoryDefinition[] }>(categoriesQuery);
         return data.marketplaceProductCategories;
+    } catch {
+        return [];
+    }
+}
+
+export async function getMarketplaceCategoryTree(): Promise<MarketplaceCategoryMenuNode[]> {
+    try {
+        const data = await publicShopRequest<{ marketplaceCategoryTree: MarketplaceCategoryMenuNode[] }>(categoryTreeQuery);
+        return data.marketplaceCategoryTree;
     } catch {
         return [];
     }

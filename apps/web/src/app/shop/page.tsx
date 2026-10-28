@@ -21,7 +21,9 @@ import { getMarketplaceArticles } from '@/features/content/services/marketplace-
 import {
     MarketplaceCatalogFilter,
     MarketplaceCatalogSort,
+    MarketplaceCategoryMenuNode,
     catalogProductSummary,
+    getMarketplaceCategoryTree,
     getMarketplaceProductCategories,
     getMarketplaceProducts,
     getMarketplaceVendors,
@@ -77,15 +79,19 @@ export default async function ShopPage({
     const query = paramValue(params, 'q');
     const sort = parseSort(params);
     const filter = buildCatalogFilter(params);
-    const [allCatalog, vendors, definitions, stories] = await Promise.all([
+    const [allCatalog, vendors, definitions, stories, categoryTree] = await Promise.all([
         getMarketplaceProducts({ sort: 'POPULARITY' }),
         getMarketplaceVendors(),
         getMarketplaceProductCategories(),
         getMarketplaceArticles(),
+        getMarketplaceCategoryTree(),
     ]);
     const categoryDefinitions = definitions;
     const selectedCategory = categoryDefinitions.find(category => category.code === filter.categoryCode);
-    if (filter.categoryCode && (!selectedCategory || (filter.productType && normalizeCode(selectedCategory.productType) !== normalizeCode(filter.productType)))) {
+    const selectedTreeCategory = flattenCategoryTree(categoryTree).find(category => category.code === filter.categoryCode);
+    const selectedCategoryType = selectedCategory?.productType
+        ?? categoryDefinitions.find(category => filter.categoryCode === category.code || filter.categoryCode?.startsWith(`${category.code}/`))?.productType;
+    if (filter.categoryCode && (!selectedCategory && !selectedTreeCategory || (filter.productType && selectedCategoryType && normalizeCode(selectedCategoryType) !== normalizeCode(filter.productType)))) {
         redirect(shopHrefWithout(params, ['category', 'page']));
     }
     const visibleCategoryDefinitions = filter.productType
@@ -126,7 +132,7 @@ export default async function ShopPage({
                         <div>
                             <p className="eyebrow">Made by independent makers</p>
                             <h1 className="mt-3 max-w-3xl text-[3.25rem] leading-[0.94] text-primary sm:text-[4.5rem]">
-                                {selectedCategory?.name ?? (query ? `Results for “${query}”` : selectedProductType ? `${selectedProductType.label} from local makers.` : 'Objects with a story.')}
+                                {selectedCategory?.name ?? selectedTreeCategory?.name ?? (query ? `Results for “${query}”` : selectedProductType ? `${selectedProductType.label} from local makers.` : 'Objects with a story.')}
                             </h1>
                             <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
                                 Shop thoughtful products, small-batch food and original experiences from approved makers across Pakistan.
@@ -759,6 +765,10 @@ function attributeValueText(value: unknown): string {
 
 function normalizeCode(value?: string | null) {
     return (value ?? '').trim().toUpperCase().replace(/[\s-]+/g, '_');
+}
+
+function flattenCategoryTree(categories: MarketplaceCategoryMenuNode[]): MarketplaceCategoryMenuNode[] {
+    return categories.flatMap(category => [category, ...flattenCategoryTree(category.children ?? [])]);
 }
 
 function slugValue(value?: string | null) {
