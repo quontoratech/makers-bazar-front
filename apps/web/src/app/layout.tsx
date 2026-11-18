@@ -1,4 +1,7 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
+
+import { NavigationProgress } from '@/components/storefront/navigation-progress';
 
 import './globals.css';
 
@@ -21,7 +24,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
                 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
             </head>
-            <body className="font-sans antialiased">{children}</body>
+            <body className="font-sans antialiased">
+                <Suspense fallback={null}>
+                    <NavigationProgress />
+                </Suspense>
+                {children}
+            </body>
         </html>
     );
 }

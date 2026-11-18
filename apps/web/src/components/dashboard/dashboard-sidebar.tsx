@@ -34,7 +34,6 @@ const roleLabels: Record<MarketplaceRole, string> = {
     customer: 'Customer',
     vendor: 'Vendor',
     influencer: 'Influencer',
-    organizer: 'Organizer',
     admin: 'Operations admin',
     'super-admin': 'Super admin',
 };

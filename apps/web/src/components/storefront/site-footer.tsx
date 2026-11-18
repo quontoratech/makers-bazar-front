@@ -13,7 +13,7 @@ const footer: Array<{ title: string; links: Array<[string, string]> }> = [
     ] },
     { title: 'Sell With Us', links: [
         ['Open Your Shop', '/apply/vendor'], ['Vendor Policy', '/policies/vendor'],
-        ['Organizer', '/apply/organizer'], ['Application Status', '/application-status'],
+        ['Application Status', '/application-status'],
     ] },
     { title: 'Help', links: [
         ['Shipping', '/policies/shipping'], ['Returns & Refunds', '/policies/returns'],

@@ -7,7 +7,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         <AuthShell
             eyebrow="One account, one approved role"
             title="Welcome back to The Makers Bazar"
-            description="Customers, vendors, influencers, organizers, and administrators enter through one secure login and are routed only to their assigned workspace."
+            description="Customers, vendors, influencers, and administrators enter through one secure login and are routed only to their assigned workspace."
             alternateLabel="New customer? Create an account"
             alternateHref={returnTo ? `/signup?returnTo=${encodeURIComponent(returnTo)}` : '/signup'}
         >

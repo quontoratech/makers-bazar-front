@@ -10,9 +10,9 @@
     "verify:checkout-recovery": "bun ./src/scripts/verify-checkout-recovery.ts"
   },
   "dependencies": {
-    "@marketplace/api-client": "0.1.0",
-    "@marketplace/contracts": "0.1.0",
-    "@marketplace/ui": "0.1.0",
+    "@marketplace/api-client": "file:../../packages/api-client",
+    "@marketplace/contracts": "file:../../packages/contracts",
+    "@marketplace/ui": "file:../../packages/ui",
     "lucide-react": "0.475.0",
     "next": "16.3.0",
     "react": "19.2.8",

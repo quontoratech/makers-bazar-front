@@ -64,7 +64,7 @@ import { isMarketplaceAuthorizationError } from '@/lib/auth/vendure-auth';
 
 export const dynamic = 'force-dynamic';
 
-const validRoles = new Set<MarketplaceRole>(['customer', 'vendor', 'influencer', 'organizer', 'admin', 'super-admin']);
+const validRoles = new Set<MarketplaceRole>(['customer', 'vendor', 'influencer', 'admin', 'super-admin']);
 const vendorNavigationRequirements: Record<string, string[]> = {
     '/dashboard/vendor/workshops': ['WORKSHOP_EXPERIENCE'],
     '/dashboard/vendor/events': ['EVENT'],

@@ -10,7 +10,7 @@ export function WorkspaceOverview({ definition, session }: { definition: Workspa
     const firstName = session?.displayName.split(/\s+/)[0];
     const title = definition.role === 'customer' && firstName
         ? `Good morning, ${firstName}`
-        : ['vendor', 'influencer', 'organizer'].includes(definition.role) && session?.displayName
+        : ['vendor', 'influencer'].includes(definition.role) && session?.displayName
             ? session.displayName
             : definition.title;
     const hasMetrics = definition.metrics.length > 0;

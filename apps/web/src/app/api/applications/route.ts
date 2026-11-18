@@ -7,7 +7,7 @@ import {
     trackRoleApplication,
 } from '@/features/applications/services/application-api';
 
-const roles = new Set<ApplicationRole>(['VENDOR', 'INFLUENCER', 'ORGANIZER']);
+const roles = new Set<ApplicationRole>(['INFLUENCER']);
 
 function requiredString(input: Record<string, unknown>, field: string) {
     const value = input[field];

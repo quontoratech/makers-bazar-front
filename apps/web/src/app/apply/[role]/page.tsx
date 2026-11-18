@@ -1,6 +1,6 @@
 import { ApplicationRole } from '@marketplace/contracts';
 import { BadgeCheck, ClipboardList, KeyRound, MailCheck } from 'lucide-react';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import { StorefrontShell } from '@/components/storefront/storefront-shell';
 import { RoleApplicationForm } from '@/features/applications/components/role-application-form';
@@ -18,11 +18,6 @@ const roles: Record<string, { role: ApplicationRole; title: string; description:
         title: 'Apply as an influencer',
         description: 'Join approved campaigns, create tracked links and codes, and manage attributed commission.',
     },
-    organizer: {
-        role: 'ORGANIZER',
-        title: 'Apply as an organizer',
-        description: 'Publish workshops, events, experiences, schedules, capacity, tickets, and attendee operations.',
-    },
 };
 
 const process = [
@@ -34,6 +29,7 @@ const process = [
 
 export default async function RoleApplicationPage({ params }: { params: Promise<{ role: string }> }) {
     const { role: roleParam } = await params;
+    if (roleParam === 'organizer') redirect('/apply/vendor');
     const definition = roles[roleParam];
     if (!definition) notFound();
     if (definition.role === 'VENDOR') return <StorefrontShell><VendorOnboardingWizard /></StorefrontShell>;

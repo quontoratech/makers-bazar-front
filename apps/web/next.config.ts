@@ -3,6 +3,9 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
     distDir: process.env.NEXT_DIST_DIR ?? '.next',
     agentRules: false,
+    experimental: {
+        cpus: 1,
+    },
     transpilePackages: ['@marketplace/api-client', '@marketplace/contracts', '@marketplace/ui'],
     images: {
         formats: ['image/avif', 'image/webp'],

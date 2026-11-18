@@ -117,7 +117,7 @@ export function AdminRoleApplications({ role }: { role: MarketplaceRole }) {
                 <div>
                     <p className="text-xs font-bold uppercase text-[#8c3a18]">Marketplace operations</p>
                     <h1 className="mt-2 text-2xl font-bold text-[#222222] sm:text-3xl">Role applications</h1>
-                    <p className="mt-2 text-sm text-[#63716c]">Review vendor, influencer, and organizer applications before account creation.</p>
+                    <p className="mt-2 text-sm text-[#63716c]">Review vendor and influencer applications before account creation.</p>
                 </div>
                 <Button variant="secondary" onClick={() => void load()} disabled={loading}>
                     <RefreshCw className={`size-4 ${loading ? 'animate-spin' : ''}`} />Refresh
@@ -130,7 +130,6 @@ export function AdminRoleApplications({ role }: { role: MarketplaceRole }) {
                         <option value="">All roles</option>
                         <option value="VENDOR">Vendor</option>
                         <option value="INFLUENCER">Influencer</option>
-                        <option value="ORGANIZER">Organizer</option>
                     </select>
                 </label>
                 <label className="text-sm font-bold text-[#52635c]">Status

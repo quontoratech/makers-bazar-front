@@ -32,7 +32,7 @@ const policies: Record<string, Policy> = {
         title: 'Privacy notice',
         intro: 'This draft explains the information used to operate your marketplace account and orders.',
         sections: [
-            { title: 'Information you provide', body: 'Account registration and checkout collect identity, contact and delivery details. Vendor and organizer applications may also collect business profile information, verification documents and payout details. Support cases can include your messages and uploaded evidence.' },
+            { title: 'Information you provide', body: 'Account registration and checkout collect identity, contact and delivery details. Vendor applications may also collect business profile information, verification documents and payout details. Support cases can include your messages and uploaded evidence.' },
             { title: 'How it is used', body: 'The marketplace uses this information to authenticate accounts, process purchases and bookings, show order updates, review applications, support customers, investigate disputes and administer vendor payouts.' },
             { title: 'Who can access it', body: 'Customers see their own account and order information. Vendors receive information needed to fulfil their own orders. Authorized administrators review applications, support cases and finance records. Private administrator–vendor return discussions are not shown in the customer case view.' },
             { title: 'Account choices', body: 'You can update supported profile and delivery details from your account. Optional marketing consent is separate from accepting the account terms. For an access or correction request that is not available in your account, contact marketplace support.' },
@@ -43,7 +43,7 @@ const policies: Record<string, Policy> = {
         title: 'Marketplace terms',
         intro: 'These draft terms describe how customer accounts, vendor listings and orders work on The Makers Bazar.',
         sections: [
-            { title: 'Accounts', body: 'Use accurate registration details and protect your login credentials. Some activities require email verification. Vendor, organizer and other professional roles require application review before the relevant workspace becomes available.' },
+            { title: 'Accounts', body: 'Use accurate registration details and protect your login credentials. Some activities require email verification. Vendor and other professional roles require application review before the relevant workspace becomes available.' },
             { title: 'Listings and orders', body: 'Published listing details, prices and availability come from approved vendors. Review the selected variant, quantity, vendor, fulfilment method, delivery quote and order total before confirming a purchase.' },
             { title: 'Payment confirmation', body: 'Where direct purchase is offered, the company records receipt of the customer payment before treating it as settled. The site does not automatically charge a card or execute a refund through a payment gateway.' },
             { title: 'Problems and disputes', body: 'Report missing, damaged or incorrect items through the relevant order or support route. A return appeal is reviewed by the super administrator, with vendor input, under the return process shown on this site.' },

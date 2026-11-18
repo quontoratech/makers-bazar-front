@@ -24,7 +24,7 @@ const identityQuery = `
 `;
 
 const DEFAULT_CHANNEL_CODE = '__default_channel__';
-const platformChannelRoles = new Set<MarketplaceRole>(['admin', 'super-admin', 'influencer', 'organizer']);
+const platformChannelRoles = new Set<MarketplaceRole>(['admin', 'super-admin', 'influencer']);
 
 interface LoginResult {
     login: {

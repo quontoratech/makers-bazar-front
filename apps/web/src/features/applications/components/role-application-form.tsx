@@ -28,12 +28,6 @@ const roleContent: Record<ApplicationRole, {
         businessTypes: ['Independent creator', 'Creator agency', 'Publisher', 'Community page'],
         categories: ['Fashion', 'Beauty & wellness', 'Food', 'Home & decor', 'Events', 'Local discovery'],
     },
-    ORGANIZER: {
-        displayName: 'Organization or event brand',
-        displayPlaceholder: 'Your public organizer name',
-        businessTypes: ['Independent organizer', 'Registered business', 'Venue', 'Training provider'],
-        categories: ['Workshops', 'Events', 'Experiences', 'Classes', 'Community gatherings', 'Corporate bookings'],
-    },
 };
 
 export function RoleApplicationForm({ role }: { role: ApplicationRole }) {
