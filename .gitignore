@@ -13,3 +13,6 @@ private-digital-assets
 test-results
 .DS_Store
 *.log
+
+# cPanel/Passenger restart marker
+/tmp/
